@@ -55,13 +55,13 @@ Hacking Tools And Facebook Bot
 ## INSTALLATION
 	$ pkg upgrade && pkg update
 
-	$ pkg install ruby -y
+	$ pkg install ruby
 	
 	$ gem install thread
 	
 	$ gem install requests
 	
-	$ pkg install git -y
+	$ pkg install git
 	
 	$ git clone https://github.com/MR-X-Junior/Facebook
 	
