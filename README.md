@@ -4,6 +4,7 @@ Hacking Tools And Facebook Bot
 ## LOGIN:
 - [x] NORMAL LOGIN
 - [x] ACCESS TOKEN LOGIN
+- [x] Cookie Login
 
 ## FEATURES:
 - [x] User Information
@@ -23,6 +24,7 @@ Hacking Tools And Facebook Bot
 - [x] BOT Random Group Post Reaction
 - [x] BOT Comment Target Post
 - [x] BOT Comment Group Post
+- [x] BOT Reply Comment
 - [x] BOT Spam Comment
 - [x] BOT Add Friend From Target Id
 - [x] BOT Add Friend From Friend
@@ -56,10 +58,6 @@ Hacking Tools And Facebook Bot
 	$ pkg upgrade && pkg update
 
 	$ pkg install ruby
-	
-	$ gem install thread
-	
-	$ gem install requests
 	
 	$ pkg install git
 	
