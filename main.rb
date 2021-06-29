@@ -2363,7 +2363,6 @@ def lain()
       end
     when '8'
       system ('clear')
-      $token = File.read('b')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
       print ("#{$w}[+] Video Id : ")
