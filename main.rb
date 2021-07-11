@@ -817,10 +817,11 @@ def main(data)
             break
           end
         end
+      rescue NoMethodError then next
       rescue SocketError
         puts ("#{$y}[!] No Connection")
         sleep (0.2)
-      rescue Errno::ETIMEDOUT
+      rescue Errno::ETIMEDOUT,Net::OpenTimeout
         puts ("#{$y}[!] Connection timed out#{$a}")
         sleep(0.2)
       rescue Errno::ENETUNREACH,Errno::ECONNRESET
