@@ -2,7 +2,8 @@
 Hacking Tools And Facebook Bot
 
 ## LOGIN:
-- [x] NORMAL LOGIN
+- [x] NORMAL LOGIN (api)
+- [x] NORMAL LOGIN (mbasic)
 - [x] ACCESS TOKEN LOGIN
 - [x] Cookie Login
 
@@ -20,6 +21,7 @@ Hacking Tools And Facebook Bot
 - [x] Get Friend  Phone From Friends
 - [x] BOT Target Post Reaction
 - [x] BOT Group Post Reactions
+- [x] BOT Comments Reactions
 - [x] BOT Random Target Post Reaction
 - [x] BOT Random Group Post Reaction
 - [x] BOT Comment Target Post
